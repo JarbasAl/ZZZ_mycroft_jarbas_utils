@@ -1,7 +1,7 @@
 import random
 from threading import Thread
 from time import sleep, time
-
+from mycroft.version import CORE_VERSION_BUILD
 from mycroft.messagebus.client.ws import WebsocketClient
 from mycroft.messagebus.message import Message
 from adapt.intent import IntentBuilder
@@ -13,6 +13,13 @@ client = None
 logger = LOG
 
 # TODO test and redo, no copy pasta from 5 versions ago
+# TODO munged messages update
+# TODO intent data PR#1351 update
+
+# TODO change this number to version that gets PR merged
+if CORE_VERSION_BUILD < 999:
+    raise NotImplementedError(
+        "PR#1351 not in " + str(CORE_VERSION_BUILD))
 
 
 def connect():
