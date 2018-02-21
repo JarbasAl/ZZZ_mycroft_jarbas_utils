@@ -46,7 +46,7 @@ Emit a message automatically on message_type
                      response_context, trigger_messages)
 
 
-In addition two support tools were made that use this internally, if this PR is accepted a new one will follow with
+In addition two support tools were made that use this internally
 
 # BusQueryBackend
 
@@ -55,13 +55,9 @@ This is template class, meant to be overrided the following way
     from jurebes.messagebus import QueryBackend
 
     class RBMQuery(QueryBackend):
-        def __init__(self, name=None, emitter=None, timeout=35, logger=None,
-                     server=False, client=False, override=True):
+        def __init__(self, name=None, emitter=None, timeout=35, logger=None):
             super(RBMQuery, self).__init__(name=name, emitter=emitter,
-                                           timeout=timeout,
-                                                    logger=logger,
-                                                    server=server, client=client,
-                                           override=override)
+                                           timeout=timeout, logger=logger)
 
         def sample(self, model="random", sample_num=3, context=None):
             result = self.send_request("RBM.request",
@@ -75,8 +71,6 @@ Then the overrided class is imported to use the functionality from anywhere, thi
 # BusResponderBackend
 
 This allows a skill to add a response handler that is triggered on certain message types, the callback function then updates the response data at the end and the reply is transmitted
-
-Initialization args are optional and mostly intended for debug/consistency/server_client architecture configuration override
 
     from jurebes.messagebus import ResponderBackend
 
