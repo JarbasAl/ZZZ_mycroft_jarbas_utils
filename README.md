@@ -75,8 +75,8 @@ This allows a skill to add a response handler that is triggered on certain messa
     from jurebes.messagebus import ResponderBackend
 
     def initialize(self):
-            self.responder = ResponderBackend(self.name, self.emitter, self.log)
-            self.responder.set_response_handler("listen.for.this.message.type", self.handle_this message)
+        self.responder = ResponderBackend(self.name, self.emitter, self.log)
+        self.responder.set_response_handler("listen.for.this.message.type", self.handle_this message)
 
     def handle_this_message(self, message):
         # do things
@@ -84,3 +84,4 @@ This allows a skill to add a response handler that is triggered on certain messa
             # context = {} # message object context field
             # data = {} # message data field
             self.responder.update_response_data(data, context)
+
