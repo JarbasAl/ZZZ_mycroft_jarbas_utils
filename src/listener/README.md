@@ -1,4 +1,4 @@
-# local listener
+# JURBES - listener
 
 pocketsphinx local listener with limited vocab for use inside skills in mycroft-core
 
