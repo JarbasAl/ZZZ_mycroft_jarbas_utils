@@ -2,9 +2,6 @@
 
 mycroft utilities
 
-* [messagebus]()
-* [intents]()
-* [tts]()
-* [stt]()
-* [listener]()
+* [messagebus](https://github.com/JarbasAl/mycroft_jarbas_utils/tree/master/mycroft_jarbas_utils/messagebus)
+* [intents](https://github.com/JarbasAl/mycroft_jarbas_utils/tree/master/mycroft_jarbas_utils/intent)
 
