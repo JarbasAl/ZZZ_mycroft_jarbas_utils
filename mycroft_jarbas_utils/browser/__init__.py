@@ -4,7 +4,7 @@ import time
 __author__ = "jarbas"
 
 
-class BrowserControl():
+class BrowserControl(object):
     def __init__(self, emitter, timeout=20, logger=None, autostart=False):
         self.emitter = emitter
         if logger is None:
