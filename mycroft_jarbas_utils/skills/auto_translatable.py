@@ -86,6 +86,8 @@ class AutotranslatableFallback(AutotranslatableSkill, FallbackSkill):
                 message.data["utterance"] = self.translate(ut,
                                                            self.input_lang)
         success = self._handler(message)
+        if success:
+            self.make_active()
         return success
 
     def register_fallback(self, handler, priority):
