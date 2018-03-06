@@ -4,7 +4,10 @@ mycroft utilities
 
 * [messagebus]()
 * [intents]()
+* [skills]()
+* [listener]()
+* [browser]()
 * [tts]()
 * [stt]()
-* [listener]()
+
 
