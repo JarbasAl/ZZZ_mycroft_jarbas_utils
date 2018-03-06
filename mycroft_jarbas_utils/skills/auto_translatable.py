@@ -1,4 +1,5 @@
-from mycroft.skills.core import MycroftSkill, FallbackSkill, Message, dig_for_message
+from mycroft.skills.core import MycroftSkill, FallbackSkill, Message, \
+    dig_for_message
 from mtranslate import translate
 import unicodedata
 from langdetect import detect as language_detect
@@ -11,15 +12,17 @@ class AutotranslatableSkill(MycroftSkill):
         MycroftSkill.__init__(self, name, emitter)
 
     def language_detect(self, utterance):
-        utterance = unicodedata.normalize('NFKD', unicode(utterance)).encode('ascii',
-                                                                    'ignore')
+        utterance = unicodedata.normalize('NFKD', unicode(utterance)).encode(
+            'ascii',
+            'ignore')
         return language_detect(utterance)
 
     def translate(self, text, lang=None):
         lang = lang or self.lang
         sentence = translate(unicode(text), lang)
-        translated = unicodedata.normalize('NFKD', unicode(sentence)).encode('ascii',
-                                                                    'ignore')
+        translated = unicodedata.normalize('NFKD', unicode(sentence)).encode(
+            'ascii',
+            'ignore')
         return translated
 
     def speak(self, utterance, expect_response=False, metadata=None):
@@ -62,7 +65,8 @@ class AutotranslatableSkill(MycroftSkill):
 
 
 class AutotranslatableFallback(AutotranslatableSkill, FallbackSkill):
-    ''' Fallback that auto translates speak messages and auto translates input '''
+    ''' Fallback that auto translates speak messages and auto translates
+    input utterances '''
 
     def __init__(self, name=None, emitter=None):
         FallbackSkill.__init__(self, name, emitter)
