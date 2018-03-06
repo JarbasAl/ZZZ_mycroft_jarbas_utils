@@ -18,19 +18,14 @@ Depending on the use case it may be better to use Adapt context since it allows 
             ["KonamiLeftIntent"], ["KonamiRightIntent"], ["KonamiLeftIntent"], ["KonamiRightIntent"],
             ["KonamiBIntent"], ["KonamiAIntent"]]
 
-    # 60 is the number of seconds for the layer timer
-    self.layers = IntentLayers(self.emitter, layers, 60)
+    self.layers = IntentLayers(self.emitter, layers)
 
     to activate next layer/state -> self.layers.next()
     to activate previous layer/state -> self.layers.previous()
     to activate layer/state 0 -> self.layers.reset()
     to get current layer/state -> state = self.layers.current_layer
 
-    each state/layer has a timer, after changing state this timer starts and at the end resets the layers
-    to disable timer, after doing next/previous -> self.layers.stop_timer()
-
     to go directly to a layer do -> self.layers.activate_layer(layer_num)
-    in this case no timer is started so you should also do - > self.layers.start_timer()
 
     on converse -> parse intent/utterance and manipulate layers if needed (bad sequence)
 
@@ -38,7 +33,7 @@ Depending on the use case it may be better to use Adapt context since it allows 
 
 “Trees” can be made by making a IntentLayer for each intent, we can use layers as branches and do
 
-    self.branch = IntentLayer(self.emitter, layers, 60)
+    self.branch = IntentLayer(self.emitter, layers)
     self.branch.disable()
 
 and to activate later when needed
