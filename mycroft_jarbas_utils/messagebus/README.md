@@ -1,9 +1,11 @@
-# JUREBES-messagebus
+# mycroft_jarbas_utils.messagebus
+
+
 # BusQuery
 
 Sends a message.type to the messagebus and waits for the reply
 
-    from jurebes.messagebus import BusQuery
+    from mycroft_jarbas_utils.messagebus import BusQuery
 
     def initialize(self):
         # set query data
@@ -32,7 +34,7 @@ Sends a message.type to the messagebus and waits for the reply
 
 Emit a message automatically on message_type
 
-    from jurebes.messagebus import BusResponder
+    from mycroft_jarbas_utils.messagebus import BusResponder
 
     def initialize(self):
         response_type = "my_message.reply"
@@ -49,7 +51,7 @@ In addition two support tools were made that use this internally
 
 This is template class, meant to be overrided the following way
 
-    from jurebes.messagebus import QueryBackend
+    from mycroft_jarbas_utils.messagebus import QueryBackend
 
     class RBMQuery(QueryBackend):
         def __init__(self, name=None, emitter=None, timeout=35, logger=None):
@@ -69,7 +71,7 @@ Then the overrided class is imported to use the functionality from anywhere, thi
 
 This allows a skill to add a response handler that is triggered on certain message types, the callback function then updates the response data at the end and the reply is transmitted
 
-    from jurebes.messagebus import ResponderBackend
+    from mycroft_jarbas_utils.messagebus import ResponderBackend
 
     def initialize(self):
         self.responder = ResponderBackend(self.name, self.emitter, self.log)

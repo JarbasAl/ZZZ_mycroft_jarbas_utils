@@ -8,7 +8,7 @@ Adds messagebus queries for intent parsing from anywhere
 
 example use-case:
 
-    from mycroft.skills.intent_service import IntentParser
+    from mycroft_jarbas_utils.intents.parser import IntentParser
 
     Parser = IntentParser(self.emitter)
 
@@ -30,7 +30,7 @@ Depending on the use case it may be better to use Adapt context since it allows 
 
 #Konami Code Example - layers with a single intent
 
-    from mycroft.skills.intent_service import IntentLayers
+    from mycroft_jarbas_utils.intents.layers import IntentLayers
 
     in initialize
 
@@ -105,7 +105,7 @@ to use objectives in other skill an helper class has been coded, this hopefully 
 dreambot objective example, dream every X time
 
         from mycroft.skills.core import MycroftSkill
-        from jarbas_utils.objectives_builder import ObjectiveBuilder
+        from mycroft_jarbas_utils.intents.objectives import ObjectiveBuilder
         import os
         import random
 

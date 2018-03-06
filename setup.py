@@ -1,11 +1,11 @@
 from distutils.core import setup
 
 setup(
-    name='jurebes',
+    name='mycroft_jarbas_utils',
     version='0.1',
-    packages=['jurebes', 'jurebes.tts', 'jurebes.intent', 'jurebes.listener',
-              'jurebes.messagebus'],
-    url='https://github.com/JarbasAl/jurebes',
+    packages=['mycroft_jarbas_utils', 'mycroft_jarbas_utils.tts', 'mycroft_jarbas_utils.intent', 'mycroft_jarbas_utils.listener',
+              'mycroft_jarbas_utils.messagebus'],
+    url='https://github.com/JarbasAl/mycroft_jarbas_utils',
     license='MIT',
     author='jarbasAi',
     author_email='jarbasai@mailfence.com',

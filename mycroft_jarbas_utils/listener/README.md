@@ -1,4 +1,4 @@
-# JURBES - listener
+# mycroft_jarbas_utils.listener
 
 pocketsphinx local listener with limited vocab for use inside skills in mycroft-core
 
@@ -15,7 +15,7 @@ or
 
 # usage
 
-    from jurebes.listener import LocalListener
+    from mycroft_jarbas_utils.listener import LocalListener
 
     ...
 
