@@ -42,3 +42,11 @@ works
 fails
 
     @intent_handler(IntentBuilder("").require("Joke"))
+
+# examples
+
+aiml fallback, needs english input and always generates english answers, translates input and output to configured language
+
+wiki skill, uses english wikipedia, translates input, search term keys and output to configured language
+
+jokes skill, always generates english answers , translates output to configured language
