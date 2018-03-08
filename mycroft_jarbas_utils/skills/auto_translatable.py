@@ -11,6 +11,7 @@ class AutotranslatableSkill(MycroftSkill):
     def __init__(self, name=None, emitter=None):
         MycroftSkill.__init__(self, name, emitter)
         self.input_lang = None
+        self.translate_keys = []
 
     def language_detect(self, utterance):
         utterance = unicodedata.normalize('NFKD', unicode(utterance)).encode(
@@ -26,9 +27,7 @@ class AutotranslatableSkill(MycroftSkill):
             'ignore')
         return translated
 
-    def translate_message(self, message):
-        # auto_Translate input
-        ut = message.data.get("utterance")
+    def translate_utterance(self, ut=""):
         if ut and self.input_lang is not None:
             ut_lang = self.language_detect(ut)
             if "-" in ut_lang:
@@ -36,9 +35,19 @@ class AutotranslatableSkill(MycroftSkill):
             if "-" in self.input_lang:
                 self.input_lang = self.input_lang.split("-")[0]
             if self.input_lang != ut_lang:
-                message.data["utterance"] = self.translate(ut,
-                                                           self.input_lang)
-        message.data["original_utterance"] = ut
+                ut = self.translate(ut, self.input_lang)
+        return ut
+
+    def translate_message(self, message):
+        # auto_Translate input
+        ut = message.data.get("utterance")
+        if ut:
+            message.data["original_utterance"] = ut
+            message.data["utterance"] = self.translate_utterance(ut)
+        for key in self.translate_keys:
+            if key in message.data:
+                ut = message.data[key]
+                message.data[key] = self.translate_utterance(ut)
         return message
 
     def register_intent(self, intent_parser, handler):
