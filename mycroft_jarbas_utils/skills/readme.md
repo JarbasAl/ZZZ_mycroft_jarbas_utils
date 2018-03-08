@@ -6,6 +6,6 @@
 
 
     class MyFallback(AutotranslatableFallback):
-        ...
-        all as usual
-        ...
+        def __init__(self):
+            super(MyFallback, self).__init__()
+            self.input_lang = "en-us"
