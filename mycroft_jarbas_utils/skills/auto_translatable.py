@@ -114,6 +114,7 @@ class AutotranslatableFallback(AutotranslatableSkill, FallbackSkill):
     def __init__(self, name=None, emitter=None):
         FallbackSkill.__init__(self, name, emitter)
         self.input_lang = None
+        self.translate_keys = []
 
         def handler(message):
             return False
