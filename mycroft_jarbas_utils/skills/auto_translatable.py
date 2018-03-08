@@ -38,6 +38,7 @@ class AutotranslatableSkill(MycroftSkill):
             if self.input_lang != ut_lang:
                 message.data["utterance"] = self.translate(ut,
                                                            self.input_lang)
+        message.data["original_utterance"] = ut
         return message
 
     def register_intent(self, intent_parser, handler):
