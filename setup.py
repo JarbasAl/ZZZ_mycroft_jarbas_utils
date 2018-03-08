@@ -5,6 +5,10 @@ setup(
     version='0.1',
     packages=['mycroft_jarbas_utils', 'mycroft_jarbas_utils.tts', 'mycroft_jarbas_utils.intent', 'mycroft_jarbas_utils.listener',
               'mycroft_jarbas_utils.messagebus'],
+    install_requires=[
+       'langdetect',
+       'mtranslate'
+    ],
     url='https://github.com/JarbasAl/mycroft_jarbas_utils',
     license='MIT',
     author='jarbasAi',
