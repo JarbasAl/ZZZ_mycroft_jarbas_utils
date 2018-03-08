@@ -1,5 +1,5 @@
 from mycroft.skills.core import MycroftSkill, FallbackSkill, Message, \
-    dig_for_message
+    dig_for_message, get_handler_name, LOG
 from mtranslate import translate
 import unicodedata
 from langdetect import detect as language_detect
@@ -10,6 +10,8 @@ class AutotranslatableSkill(MycroftSkill):
 
     def __init__(self, name=None, emitter=None):
         MycroftSkill.__init__(self, name, emitter)
+        self.input_lang = None
+        self.translate_keys = []
 
     def language_detect(self, utterance):
         utterance = unicodedata.normalize('NFKD', unicode(utterance)).encode(
@@ -24,6 +26,48 @@ class AutotranslatableSkill(MycroftSkill):
             'ascii',
             'ignore')
         return translated
+
+    def translate_utterance(self, ut=""):
+        if ut and self.input_lang is not None:
+            ut_lang = self.language_detect(ut)
+            if "-" in ut_lang:
+                ut_lang = ut_lang.split("-")[0]
+            if "-" in self.input_lang:
+                self.input_lang = self.input_lang.split("-")[0]
+            if self.input_lang != ut_lang:
+                ut = self.translate(ut, self.input_lang)
+        return ut
+
+    def translate_message(self, message):
+        # auto_Translate input
+        ut = message.data.get("utterance")
+        if ut:
+            message.data["original_utterance"] = ut
+            message.data["utterance"] = self.translate_utterance(ut)
+        for key in self.translate_keys:
+            if key in message.data:
+                ut = message.data[key]
+                message.data[key] = self.translate_utterance(ut)
+        return message
+
+    def register_intent(self, intent_parser, handler):
+        def universal_intent_handler(message, dummy=None):
+            message = self.translate_message(message)
+            LOG.info(get_handler_name(handler))
+            handler(message)
+
+        super(AutotranslatableSkill, self) \
+            .register_intent(intent_parser,
+                             function(universal_intent_handler))
+
+    def register_intent_file(self, intent_file, handler):
+        def universal_intent_handler(message, dummy=None):
+            message = self.translate_message(message)
+            LOG.info(get_handler_name(handler))
+            handler(message)
+
+        super(AutotranslatableSkill, self) \
+            .register_intent_file(intent_file, function(universal_intent_handler))
 
     def speak(self, utterance, expect_response=False, metadata=None):
         """
@@ -71,24 +115,18 @@ class AutotranslatableFallback(AutotranslatableSkill, FallbackSkill):
     def __init__(self, name=None, emitter=None):
         FallbackSkill.__init__(self, name, emitter)
         self.input_lang = None
+        self.translate_keys = []
 
         def handler(message):
             return False
 
         self._handler = handler
+        self._handler_name = ""
 
     def _universal_fallback_handler(self, message):
         # auto_Translate input
-        ut = message.data.get("utterance")
-        if ut:
-            ut_lang = self.language_detect(ut)
-            if "-" in ut_lang:
-                ut_lang = ut_lang.split("-")[0]
-            if "-" in self.input_lang:
-                self.input_lang = self.input_lang.split("-")[0]
-            if self.input_lang != ut_lang:
-                message.data["utterance"] = self.translate(ut,
-                                                           self.input_lang)
+        message = self.translate_message(message)
+        LOG.info(self._handler_name)
         success = self._handler(message)
         if success:
             self.make_active()
@@ -103,6 +141,7 @@ class AutotranslatableFallback(AutotranslatableSkill, FallbackSkill):
         """
 
         self._handler = handler
+        self._handler_name = get_handler_name(handler)
 
         if self.input_lang:
             self.instance_fallback_handlers.append(
