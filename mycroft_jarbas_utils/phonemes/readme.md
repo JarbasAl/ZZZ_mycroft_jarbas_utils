@@ -14,5 +14,5 @@ checks cmu dict from nltk for phonemes, if not available guesses them
 
     from mycroft_jarbas_utils.phonemes import guess_phonemes
 
-    phonemes = guess_phonemes("jarbas")
+    phonemes = get_phonemes("jarbas")
 
