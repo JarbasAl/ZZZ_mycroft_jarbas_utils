@@ -3,6 +3,7 @@ from mycroft.skills.core import MycroftSkill, FallbackSkill, Message, \
 from mtranslate import translate
 import unicodedata
 from langdetect import detect as language_detect
+from langdetect.lang_detect_exception import LangDetectException
 
 
 class AutotranslatableSkill(MycroftSkill):
@@ -14,10 +15,14 @@ class AutotranslatableSkill(MycroftSkill):
         self.translate_keys = []
 
     def language_detect(self, utterance):
-        utterance = unicodedata.normalize('NFKD', unicode(utterance)).encode(
-            'ascii',
-            'ignore')
-        return language_detect(utterance)
+        try:
+            utterance = unicodedata.normalize('NFKD', unicode(
+                utterance)).encode(
+                'ascii',
+                'ignore')
+            return language_detect(utterance)
+        except LangDetectException:
+            return self.lang
 
     def translate(self, text, lang=None):
         lang = lang or self.lang
