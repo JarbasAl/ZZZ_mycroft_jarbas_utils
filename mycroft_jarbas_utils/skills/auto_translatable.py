@@ -52,6 +52,9 @@ class AutotranslatableSkill(MycroftSkill):
         return message
 
     def register_intent(self, intent_parser, handler):
+        # the dummy is needed because mycroft expects the handler to have a
+        #  self, arg count will be wrong without the dummy and things will
+        # break
         def universal_intent_handler(message, dummy=None):
             message = self.translate_message(message)
             LOG.info(get_handler_name(handler))
@@ -61,6 +64,9 @@ class AutotranslatableSkill(MycroftSkill):
             .register_intent(intent_parser, universal_intent_handler)
 
     def register_intent_file(self, intent_file, handler):
+        # the dummy is needed because mycroft expects the handler to have a
+        #  self, arg count will be wrong without the dummy and things will
+        # break
         def universal_intent_handler(message, dummy=None):
             message = self.translate_message(message)
             LOG.info(get_handler_name(handler))
