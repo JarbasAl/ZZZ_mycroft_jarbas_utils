@@ -58,8 +58,7 @@ class AutotranslatableSkill(MycroftSkill):
             handler(message)
 
         super(AutotranslatableSkill, self) \
-            .register_intent(intent_parser,
-                             function(universal_intent_handler))
+            .register_intent(intent_parser, universal_intent_handler)
 
     def register_intent_file(self, intent_file, handler):
         def universal_intent_handler(message, dummy=None):
@@ -68,7 +67,7 @@ class AutotranslatableSkill(MycroftSkill):
             handler(message)
 
         super(AutotranslatableSkill, self) \
-            .register_intent_file(intent_file, function(universal_intent_handler))
+            .register_intent_file(intent_file, universal_intent_handler)
 
     def speak(self, utterance, expect_response=False, metadata=None):
         """
