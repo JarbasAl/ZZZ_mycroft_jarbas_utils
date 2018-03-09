@@ -10,7 +10,8 @@ setup(
               'mycroft_jarbas_utils.skills'],
     install_requires=[
        'langdetect',
-       'mtranslate'
+       'mtranslate',
+       'pronouncing'
     ],
     url='https://github.com/JarbasAl/mycroft_jarbas_utils',
     license='MIT',
