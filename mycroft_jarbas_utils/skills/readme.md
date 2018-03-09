@@ -45,8 +45,11 @@ fails
 
 # examples
 
-aiml fallback, needs english input and always generates english answers, translates input and output to configured language
+[duckduck go](https://github.com/JarbasAl/universal-fallback-duckduckgo), [wolframalpha](https://github.com/JarbasAl/universal-fallback-wolfram-alpha) and [aiml](https://github.com/JarbasAl/universal-fallback-aiml) fallback, need english input
+and always generate english answers, translates input and output to configured language
 
-wiki skill, uses english wikipedia, translates input, search term keys and output to configured language
+[wiki](https://github.com/JarbasAl/skill-wiki-universal) skill, uses english wikipedia, translates input, search term keys and
+ output to configured language
 
-jokes skill, always generates english answers , translates output to configured language
+[jokes skill](https://github.com/JarbasAl/skill-joke-universal), always generates english answers , translates output to
+configured language
