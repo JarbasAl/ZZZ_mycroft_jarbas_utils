@@ -7,7 +7,8 @@ setup(
               'mycroft_jarbas_utils.intent',
               'mycroft_jarbas_utils.browser',
               'mycroft_jarbas_utils.messagebus',
-              'mycroft_jarbas_utils.skills'],
+              'mycroft_jarbas_utils.skills',
+              'mycroft_jarbas_utils.util'],
     install_requires=[
        'langdetect',
        'mtranslate',
