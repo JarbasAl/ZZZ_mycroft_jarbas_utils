@@ -28,15 +28,27 @@ class AutotranslatableSkill(MycroftSkill):
         self.log.info("translated " + text + " to " + translated)
         return translated
 
-    def translate_utterance(self, ut=""):
-        if ut and self.input_lang is not None:
+    def translate_utterance(self, ut="", lang=None, context=None):
+        lang = lang or self.input_lang
+        ut_lang = self.lang
+        if ut and lang is not None:
             ut_lang = self.language_detect(ut)
             if "-" in ut_lang:
                 ut_lang = ut_lang.split("-")[0]
-            if "-" in self.input_lang:
-                self.input_lang = self.input_lang.split("-")[0]
-            if self.input_lang != ut_lang:
-                ut = self.translate(ut, self.input_lang)
+            if "-" in lang:
+                lang = lang.split("-")[0]
+            if lang != ut_lang:
+                ut = self.translate(ut, lang)
+
+        if context is not None:
+            message_context = context
+            if ut_lang != lang:
+                message_context["auto_translated"] = True
+            else:
+                message_context["auto_translated"] = False
+            message_context["source_lang"] = ut_lang
+            message_context["target_lang"] = lang
+            return ut, message_context
         return ut
 
     def translate_message(self, message):
@@ -87,20 +99,9 @@ class AutotranslatableSkill(MycroftSkill):
                        metadata:           Extra data to be transmitted
                                            together with speech
                """
-        # translate utterance for skills that generate speech at
-        # runtime, or by request
-        message_context = {}
-        utterance_lang = self.language_detect(utterance)
-        if "-" in utterance_lang:
-            utterance_lang = utterance_lang.split("-")[0]
-        target_lang = self.lang
-        if "-" in target_lang:
-            target_lang = target_lang.split("-")[0]
-        if utterance_lang != target_lang:
-            utterance = self.translate(utterance, target_lang)
-            message_context["auto_translated"] = True
-            message_context["source_lang"] = utterance_lang
-            message_context["target_lang"] = target_lang
+        # translate utterance for skills that generate speech at runtime
+        utterance, message_context = self.translate_utterance(utterance,
+                                                              self.lang, {})
 
         # registers the skill as being active
         self.enclosure.register(self.name)
