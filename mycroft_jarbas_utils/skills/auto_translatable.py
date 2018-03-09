@@ -28,39 +28,40 @@ class AutotranslatableSkill(MycroftSkill):
         self.log.info("translated " + text + " to " + translated)
         return translated
 
-    def translate_utterance(self, ut="", lang=None, context=None):
+    def _translate_utterance(self, utterance="", lang=None, context=None):
         lang = lang or self.input_lang
         ut_lang = self.lang
-        if ut and lang is not None:
-            ut_lang = self.language_detect(ut)
+        original = utterance
+        if utterance and lang is not None:
+            ut_lang = self.language_detect(utterance)
             if "-" in ut_lang:
                 ut_lang = ut_lang.split("-")[0]
             if "-" in lang:
                 lang = lang.split("-")[0]
             if lang != ut_lang:
-                ut = self.translate(ut, lang)
+                utterance = self.translate(utterance, lang)
 
         if context is not None:
             message_context = context
             if ut_lang != lang:
                 message_context["auto_translated"] = True
+                message_context["original_utterance"] = original
             else:
                 message_context["auto_translated"] = False
             message_context["source_lang"] = ut_lang
             message_context["target_lang"] = lang
-            return ut, message_context
-        return ut
+            return utterance, message_context
+        return utterance
 
-    def translate_message(self, message):
+    def _translate_message(self, message):
         # auto_Translate input
         ut = message.data.get("utterance")
         if ut:
-            message.data["original_utterance"] = ut
-            message.data["utterance"] = self.translate_utterance(ut)
+            message.data["utterance"] = self._translate_utterance(ut)
         for key in self.translate_keys:
             if key in message.data:
                 ut = message.data[key]
-                message.data[key] = self.translate_utterance(ut)
+                message.data[key] = self._translate_utterance(ut)
         return message
 
     def register_intent(self, intent_parser, handler):
@@ -68,7 +69,7 @@ class AutotranslatableSkill(MycroftSkill):
         #  self, arg count will be wrong without the dummy and things will
         # break
         def universal_intent_handler(message, dummy=None):
-            message = self.translate_message(message)
+            message = self._translate_message(message)
             LOG.info(get_handler_name(handler))
             handler(message)
 
@@ -80,7 +81,7 @@ class AutotranslatableSkill(MycroftSkill):
         #  self, arg count will be wrong without the dummy and things will
         # break
         def universal_intent_handler(message, dummy=None):
-            message = self.translate_message(message)
+            message = self._translate_message(message)
             LOG.info(get_handler_name(handler))
             handler(message)
 
@@ -99,9 +100,10 @@ class AutotranslatableSkill(MycroftSkill):
                        metadata:           Extra data to be transmitted
                                            together with speech
                """
+        metadata = metadata or {}
         # translate utterance for skills that generate speech at runtime
-        utterance, message_context = self.translate_utterance(utterance,
-                                                              self.lang, {})
+        utterance, message_context = self._translate_utterance(utterance,
+                                                               self.lang, {})
 
         # registers the skill as being active
         self.enclosure.register(self.name)
@@ -132,7 +134,7 @@ class AutotranslatableFallback(AutotranslatableSkill, FallbackSkill):
 
     def _universal_fallback_handler(self, message):
         # auto_Translate input
-        message = self.translate_message(message)
+        message = self._translate_message(message)
         LOG.info(self._handler_name)
         success = self._handler(message)
         if success:
