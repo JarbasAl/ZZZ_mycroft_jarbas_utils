@@ -8,7 +8,7 @@ setup(
               'mycroft_jarbas_utils.browser',
               'mycroft_jarbas_utils.messagebus',
               'mycroft_jarbas_utils.skills',
-              'mycroft_jarbas_utils.util'],
+              'mycroft_jarbas_utils.phonemes'],
     install_requires=[
        'langdetect',
        'mtranslate',
