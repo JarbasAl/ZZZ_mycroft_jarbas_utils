@@ -1,3 +1,8 @@
+# contents
+
+- auto translatable skills -> try to work in any language
+- active skills -> converse is ALWAYS called
+
 # Auto Translatable skills
 
 # usage
