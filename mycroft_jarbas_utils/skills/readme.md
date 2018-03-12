@@ -1,4 +1,4 @@
-[blog post](https://jarbasai.github.io//posts/2017/11/auto_translatable_skills/)
+# Auto Translatable skills
 
 # usage
 
@@ -53,3 +53,32 @@ and always generate english answers, translates input and output to configured l
 
 [jokes skill](https://github.com/JarbasAl/skill-joke-universal), always generates english answers , translates output to
 configured language
+
+
+# Active skills
+
+These skills remain in the active skill list, on 5 minute timeout they are
+reactivated automatically
+
+Depends on [PR#1468](https://github.com/MycroftAI/mycroft-core/pull/1468/files) to allow a skill to know when it was kicked from the
+active list
+
+This will allow you to do things like passive skills that are always active, for example always mutating an utterance
+
+def converse(self, utterances, lang="en-us"):
+    if utterances[0] != self.last_mutation:
+        self.last_mutation = self.mutate(utterances[0])
+        self.emitter.emit(Message("recognizer_loop:utterance", {"utterances": [self.last_mutation])
+        return True
+    return False
+
+Other examples would be monitoring utterances and setting contexts, or displaying them in a web UI, or training a chatbot…
+
+# usage
+
+    from mycroft_jarbas_utils.skills.active import ActiveSkill
+
+    class MySkill(ActiveSkill):
+        def __init__(self):
+            super(ActiveSkill, self).__init__()
+        # do everything else as usual, this skill is always in active list
