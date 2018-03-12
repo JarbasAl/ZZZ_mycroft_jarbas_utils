@@ -70,12 +70,12 @@ active list
 
 This will allow you to do things like passive skills that are always active, for example always mutating an utterance
 
-def converse(self, utterances, lang="en-us"):
-    if utterances[0] != self.last_mutation:
-        self.last_mutation = self.mutate(utterances[0])
-        self.emitter.emit(Message("recognizer_loop:utterance", {"utterances": [self.last_mutation])
-        return True
-    return False
+    def converse(self, utterances, lang="en-us"):
+        if utterances[0] != self.last_mutation:
+            self.last_mutation = self.mutate(utterances[0])
+            self.emitter.emit(Message("recognizer_loop:utterance", {"utterances": [self.last_mutation])
+            return True
+        return False
 
 Other examples would be monitoring utterances and setting contexts, or displaying them in a web UI, or training a chatbot…
 
