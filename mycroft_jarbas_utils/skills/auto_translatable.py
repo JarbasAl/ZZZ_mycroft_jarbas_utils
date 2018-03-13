@@ -4,13 +4,14 @@ from mtranslate import translate
 import unicodedata
 from langdetect import detect as language_detect
 from langdetect.lang_detect_exception import LangDetectException
+from mycroft_jarbas_utils.skills.active import ActiveFallback, ActiveSkill
 
 
 class AutotranslatableSkill(MycroftSkill):
     ''' Skill that auto translates speak messages '''
 
     def __init__(self, name=None, emitter=None):
-        MycroftSkill.__init__(self, name, emitter)
+        super(AutotranslatableSkill, self).__init__(name, emitter)
         self.input_lang = None
         self.translate_keys = []
 
@@ -127,7 +128,7 @@ class AutotranslatableFallback(AutotranslatableSkill, FallbackSkill):
     input utterances '''
 
     def __init__(self, name=None, emitter=None):
-        FallbackSkill.__init__(self, name, emitter)
+        super(AutotranslatableFallback, self).__init__(name, emitter)
         self.input_lang = None
         self.translate_keys = []
 
@@ -165,3 +166,13 @@ class AutotranslatableFallback(AutotranslatableSkill, FallbackSkill):
         else:
             self.instance_fallback_handlers.append(handler)
             self._register_fallback(handler, priority)
+
+
+class ActiveAutotranslatableSkill(ActiveSkill, AutotranslatableSkill):
+    def __init__(self, name=None, emitter=None):
+        super(ActiveAutotranslatableSkill, self).__init__(name, emitter)
+
+
+class ActiveAutotranslatableFallback(ActiveFallback, AutotranslatableFallback):
+    def __init__(self, name=None, emitter=None):
+        super(ActiveAutotranslatableFallback, self).__init__(name, emitter)
