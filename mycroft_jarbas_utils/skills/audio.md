@@ -78,7 +78,7 @@ you should not initialize the audio service yourself, it was done already, use s
         self.enclosure.mouth_display("IIAEAOOHGAGEGOOHAA", x=10, y=0,
                                          refresh=True)
 
-        self.audio.play(videos)
+        self.play(videos)
 
 no need to create a settingsmeta.json, it is automatically generated and default backend can be selected in home.mycroft.ai
 

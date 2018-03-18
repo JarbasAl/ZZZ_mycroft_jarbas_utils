@@ -141,6 +141,11 @@ class AudioSkill(MycroftSkill):
                                                          "")
         return message
 
+    def play(self, tracks):
+        if self.audio.is_playing:
+            self.audio.stop()
+        self.audio.play(tracks)
+
     def register_intent(self, intent_parser, handler, need_self=False):
         skill_id = to_letters(self.skill_id)
         if isinstance(intent_parser, Intent):
