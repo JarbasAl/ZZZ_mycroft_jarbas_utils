@@ -49,7 +49,7 @@ class AudioSkill(MycroftSkill):
         self.create_settings_meta()
         if "default_backend" not in self.settings:
             self.settings["default_backend"] = ""
-        self.backend_preference = []
+        self.backend_preference = ["local"]
         if self.settings["default_backend"]:
             default = self.settings["default_backend"]
             if default in self.backend_preference:
@@ -65,7 +65,7 @@ class AudioSkill(MycroftSkill):
         settings_path = join(self._dir, "settingsmeta.json")
         if not exists(settings_path):
             settings = {
-                    "name": "Youtube Skill",
+                    "name": self.name,
                     "skillMetadata": {
                         "sections": [
                             {
@@ -75,7 +75,7 @@ class AudioSkill(MycroftSkill):
                                         "name": "default_backend",
                                         "type": "text",
                                         "label": "default_backend",
-                                        "value": "vlc"
+                                        "value": self.backend_preference[0]
                                     }
                                 ]
                             }

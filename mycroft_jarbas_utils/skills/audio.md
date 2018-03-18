@@ -56,9 +56,9 @@ to avoid searching youtube for "X in vlc" you can use the add_filter method
 
 this changed the message.data "music" field to remove backend references, this way we still have a clean search term
 
-since we are using padatious, adapt did not catch the AudioBackend, but it is also automatically available in the message.data
+since we are using padatious, adapt did not catch the AudioBackend keyword, but it is also automatically available in the message.data
 
-you should not initialize the audio service yourself, use self.audio instead
+you should not initialize the audio service yourself, it was done already, use self.audio when needed
 
     def youtube_play(self, title):
         # Play the song requested
@@ -76,7 +76,7 @@ you should not initialize the audio service yourself, use self.audio instead
 
         self.audio.play(videos)
 
-no need to create a settingsmeta.json, it is automatically generated
+no need to create a settingsmeta.json, it is automatically generated and default backend can be selected in home.mycroft.ai
 
 
 # audio service
