@@ -8,8 +8,18 @@ class MutableAudioService(AudioService):
         super(MutableAudioService, self).__init__(emitter)
         self.events = []
         self.backend = ""
+        self.removables = []
 
-    def register_intent(self, intent_name):
+    def set_to_remove(self, remove):
+        if not isinstance(remove, list):
+            removes = [remove]
+        else:
+            removes = remove
+        for remove in removes:
+            if remove not in self.removables:
+                self.removables.append(remove)
+
+    def register_backend_update(self, intent_name):
         self.emitter.on(intent_name, self.handle_backend_update)
         self.events.append((intent_name, self.handle_backend_update))
 
@@ -18,6 +28,9 @@ class MutableAudioService(AudioService):
 
     def play(self, tracks=None, utterance=''):
         utterance = utterance or self.backend
+        if utterance:
+            for remove in self.removables:
+                utterance = utterance.replace(remove, "")
         super(MutableAudioService, self).play(tracks, utterance)
 
     def shutdown(self):
@@ -48,11 +61,17 @@ class AudioSkill(MycroftSkill):
             .get("Audio", {}) \
             .get("backends", {}) \
             .keys()
+        for backend in self.backends:
+            self.set_to_remove(backend)
+
+    def set_to_remove(self, removables):
+        """ use this for keywords you want to filter """
+        self.audio.set_to_remove(removables)
 
     def register_intent(self, intent_parser, handler, need_self=False):
         name = intent_parser.name or handler.__name__
         munge_intent_parser(intent_parser, name, self.skill_id)
-        self.audio.register_intent(intent_parser.name)
+        self.audio.register_backend_update(intent_parser.name)
         super(AudioSkill, self).register_intent(intent_parser
                                                 .optionally("AudioBackend"),
                                                 handler, need_self)
