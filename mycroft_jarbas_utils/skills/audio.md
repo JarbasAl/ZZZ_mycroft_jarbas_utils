@@ -12,6 +12,10 @@ This MycroftSkill base class manages a few aspects about audio
 * skills may request a prefered order, the first available will be used
 * create a AudioBackend.entity with all backends for padatious intents to use
 
+# install
+
+    pip install git+https://github.com/JarbasAl/mycroft_jarbas_utils/
+
 # use-case example
 
 to use this base class import it and use it instead of MycroftSkill
