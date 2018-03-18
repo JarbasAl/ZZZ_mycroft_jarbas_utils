@@ -95,9 +95,6 @@ if you need to use the audioservice outside a skill you can do
     # use vlc if no backend is asked instead of the config default
     audio.set_prefered("vlc")
 
-    # in all "backend.change" messages the backend will be set if "AudioBackend" field is availbale
-    audio.register_backend_update("backend.change")
-
     # will use vlc
     audio.play(["my_track.mp3"])
     sleep(5)
@@ -106,6 +103,9 @@ if you need to use the audioservice outside a skill you can do
     # will use mpv
     audio.play(["my_track.mp3"], "mpv")
     sleep(5)
+
+    # in all "backend.change" messages the backend will be set if "AudioBackend" field is available
+    audio.register_backend_update("backend.change")
 
     # clean shutdown
     audio.shutdown()
