@@ -2,7 +2,7 @@
 
 - auto translatable skills -> try to work in any language
 - active skills -> converse is ALWAYS called
-- audio skill -> automatically selects backend for audio service, registers AudioBackend adapt keyword, cleans utterance remainder to be used as query, allow to set prefered backend in skill
+- audio skill -> automatically selects backend for audio service, cleans utterance
 
 # Auto Translatable skills
 
