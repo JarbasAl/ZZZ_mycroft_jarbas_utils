@@ -12,7 +12,15 @@ This MycroftSkill base class manages a few aspects about audio
 * skills may request a prefered order, the first available will be used
 * create a AudioBackend.entity with all backends for padatious intents to use
 
-# usage example
+# use-case example
+
+to use this base class import it and use it instead of MycroftSkill
+
+    from mycroft_jarbas_utils.skills.audio import AudioSkill
+
+    class YoutubeSkill(AudioSkill):
+        def __init__(self):
+            super(YoutubeSkill, self).__init__()
 
 in my [youtube skill](https://github.com/JarbasAl/skill-youtube-play) i have an adapt intent, this triggers whenever i say
 "play X in youtube", or "youtube play X in vlc"
