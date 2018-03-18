@@ -29,7 +29,9 @@ adapt registered all backends, the skill added it to the intent
 automatically as an optional keyword, the utterance_remainder will not search
 garbage!
 
-there is another more generic padatious intent, this one triggers with "play X"
+there is another more generic padatious intent, this one triggers with "play
+X", a AudioBackend.entity was generated and registered for use in .intent
+files, but it is not needed in this case
 
     @intent_file_handler("youtube.intent")
     def handle_play_song_padatious_intent(self, message):
