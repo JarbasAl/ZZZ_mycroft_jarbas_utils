@@ -31,7 +31,7 @@ class AutotranslatableSkill(MycroftSkill):
         translated = unicodedata.normalize('NFKD', unicode(sentence)).encode(
             'ascii',
             'ignore')
-        self.log.info("translated " + text + " to " + translated)
+        LOG.info("translated " + text + " to " + translated)
         return translated
 
     def _translate_utterance(self, utterance="", lang=None, context=None):
