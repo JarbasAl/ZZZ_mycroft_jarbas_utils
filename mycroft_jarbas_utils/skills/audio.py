@@ -43,9 +43,9 @@ class AudioSkill(MycroftSkill):
 
     def bind(self, emitter):
         super(AudioSkill, self).bind(emitter)
-        self.init_audio()
+        self.init_audio(emitter)
 
-    def init_audio(self):
+    def init_audio(self, emitter):
         self.audio = MutableAudioService(self.emitter)
         self.backends = self.config_core \
             .get("Audio", {}) \
