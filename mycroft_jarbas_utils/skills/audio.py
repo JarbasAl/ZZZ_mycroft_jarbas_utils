@@ -39,7 +39,7 @@ class AudioSkill(MycroftSkill):
         super(AudioSkill, self).__init__(name, emitter)
         self.audio = None
         self.backends = []
-        self.prefered_backend = ""
+        self.backend_preference = []
 
     def bind(self, emitter):
         super(AudioSkill, self).bind(emitter)
@@ -47,7 +47,6 @@ class AudioSkill(MycroftSkill):
 
     def init_audio(self):
         self.audio = MutableAudioService(self.emitter)
-        self.audio.set_prefered(self.prefered_backend)
         self.backends = self.config_core \
             .get("Audio", {}) \
             .get("backends", {}) \
@@ -58,6 +57,11 @@ class AudioSkill(MycroftSkill):
                 for m in modifiers:
                     self.register_vocabulary(m + backend, "AudioBackend")
             self.register_vocabulary(backend, "AudioBackend")
+        self.backend_preference = [backend for backend in
+                                   self.backend_preference if backend in
+                                   self.backends]
+        if len(self.backend_preference):
+            self.audio.set_prefered(self.backend_preference[0])
 
     def register_intent(self, intent_parser, handler, need_self=False):
         name = intent_parser.name or handler.__name__
