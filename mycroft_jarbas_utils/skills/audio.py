@@ -8,13 +8,17 @@ class MutableAudioService(AudioService):
         super(MutableAudioService, self).__init__(emitter)
         self.events = []
         self.backend = ""
+        self.prefered = ""
+
+    def set_prefered(self, backend):
+        self.prefered = backend
 
     def register_backend_update(self, intent_name):
         self.emitter.on(intent_name, self.handle_backend_update)
         self.events.append((intent_name, self.handle_backend_update))
 
     def handle_backend_update(self, message):
-        self.backend = message.data.get("AudioBackend", "")
+        self.backend = message.data.get("AudioBackend", self.prefered)
 
     def play(self, tracks=None, utterance=''):
         utterance = utterance or self.backend
@@ -35,6 +39,7 @@ class AudioSkill(MycroftSkill):
         super(AudioSkill, self).__init__(name, emitter)
         self.audio = None
         self.backends = []
+        self.prefered_backend = ""
 
     def bind(self, emitter):
         super(AudioSkill, self).bind(emitter)
@@ -42,6 +47,7 @@ class AudioSkill(MycroftSkill):
 
     def init_audio(self):
         self.audio = MutableAudioService(self.emitter)
+        self.audio.set_prefered(self.prefered_backend)
         self.backends = self.config_core \
             .get("Audio", {}) \
             .get("backends", {}) \
