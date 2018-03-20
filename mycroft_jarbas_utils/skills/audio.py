@@ -7,9 +7,9 @@ from os.path import join, exists
 import json
 
 
-class AudioService_B(AudioService):
+class AudioServiceB(AudioService):
     def __init__(self, emitter):
-        super(AudioService_B, self).__init__(emitter)
+        AudioService.__init__(self, emitter)
         self.events = []
         self.backend = ""
         self.prefered = ""
@@ -86,7 +86,7 @@ class AudioSkill(MycroftSkill):
                 f.write(json.dumps(settings))
 
     def init_audio(self):
-        self.audio = AudioService_B(self.emitter)
+        self.audio = AudioServiceB(self.emitter)
         backends = self.config_core.get("Audio", {}).get("backends", {})
         self.backends = [bk for bk in backends.keys() if backends[bk].get(
             "active", False)]
