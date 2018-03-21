@@ -41,6 +41,8 @@ class AudioSkill(MycroftSkill):
 
     def __init__(self, name=None, emitter=None):
         self.emitter = None
+        self.backend_preference = ["chromecast", "mopidy", "mpv", "vlc",
+                                   "mplayer"]
         super(AudioSkill, self).__init__(name, emitter)
         self.audio = None
         self._modifiers = ["in", "on", "at", "from"]
