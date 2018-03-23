@@ -10,6 +10,6 @@ mycroft utilities
 
 # install
 
-    pip install git+https://github.com/JarbasAl/mycroft_jarbas_utils
+    pip install mycroft_jarbas_utils
 
 
