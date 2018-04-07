@@ -33,7 +33,7 @@ Depending on the use case it may be better to use Adapt context since it allows 
     self.remove_named_layer("layer_name")
     self.replace_named_layer("layer_name", layers)
     self.activate_named_layer("layer_name")
-    self.activate_named_layer("layer_name")
+    self.deactivate_named_layer("layer_name")
 
     on converse -> parse intent/utterance and manipulate layers if needed (bad sequence)
 
