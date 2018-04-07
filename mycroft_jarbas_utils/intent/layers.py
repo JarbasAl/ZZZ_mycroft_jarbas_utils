@@ -78,7 +78,7 @@ class IntentLayers(object):
         self.layers.append(intent_list)
         LOG.info("Adding intent layer: " + str(intent_list))
 
-    def set_named_layer(self, name, intent_list=None):
+    def add_named_layer(self, name, intent_list=None):
         intent_list = intent_list or []
         self.named_layers[name] = len(self.layers)
         self.layers.append(intent_list)
