@@ -1,7 +1,8 @@
 from mycroft.messagebus.message import Message
 from mycroft.util.log import LOG
 from time import sleep
-from mycroft.version import CORE_VERSION_BUILD
+from mycroft.version import CORE_VERSION_BUILD, CORE_VERSION_MAJOR, \
+    CORE_VERSION_MINOR, CORE_VERSION_STR
 
 
 class IntentLayers(object):
@@ -12,9 +13,10 @@ class IntentLayers(object):
         self.layers = layers
         self.current_layer = 0
         self.activate_layer(0)
-        # TODO change this number to version that gets PR merged
-        if CORE_VERSION_BUILD < 999 and not override:
-            raise NotImplementedError("PR#860 not in " + str(CORE_VERSION_BUILD))
+        self.named_layers = {}
+        if CORE_VERSION_BUILD < 3 and CORE_VERSION_MAJOR < 18 and \
+                CORE_VERSION_MINOR < 2 and not override:
+            raise NotImplementedError("PR#860 not in " + CORE_VERSION_STR)
             # you can do this in main skill and pass override=True
 
             # def initialize(self):
@@ -75,6 +77,44 @@ class IntentLayers(object):
         intent_list = intent_list or []
         self.layers.append(intent_list)
         LOG.info("Adding intent layer: " + str(intent_list))
+
+    def set_named_layer(self, name, intent_list=None):
+        intent_list = intent_list or []
+        self.named_layers[name] = len(self.layers)
+        self.layers.append(intent_list)
+        LOG.info("Setting layer " + name + " to: " + str(intent_list))
+
+    def activate_named_layer(self, name):
+        if name in self.named_layers:
+            i = self.named_layers[name]
+            LOG.info("activating layer named: " + name)
+            self.activate_layer(i)
+        else:
+            LOG.error("no layer named: " + name)
+
+    def deactivate_named_layer(self, name):
+        if name in self.named_layers:
+            i = self.named_layers[name]
+            LOG.info("deactivating layer named: " + name)
+            self.deactivate_layer(i)
+        else:
+            LOG.error("no layer named: " + name)
+
+    def remove_named_layer(self, name):
+        if name in self.named_layers:
+            i = self.named_layers[name]
+            LOG.info("removing layer named: " + name)
+            self.remove_layer(i)
+        else:
+            LOG.error("no layer named: " + name)
+
+    def replace_named_layer(self, name, intent_list=None):
+        if name in self.named_layers:
+            i = self.named_layers[name]
+            LOG.info("deactivating layer named: " + name)
+            self.replace_layer(i, intent_list)
+        else:
+            LOG.error("no layer named: " + name)
 
     def replace_layer(self, layer_num, intent_list=None):
         intent_list = intent_list or []
