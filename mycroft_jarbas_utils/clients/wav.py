@@ -57,13 +57,18 @@ class FileConsumer(Thread):
         self.emitter.on("stt.request", self.handle_external_request)
         while not self.stop_event.is_set():
             if exists(self.path):
-                audio = read_wave_file(self.path)
-                text = self.stt.execute(audio).lower().strip()
-                self.emitter.emit(
-                    Message("recognizer_loop:utterance", 
-                           {"utterances": [text]},
-                           {"source": "wav_client"}))
-                remove(self.path)
+                try:
+                    audio = read_wave_file(self.path)
+                    text = self.stt.execute(audio).lower().strip()
+                    self.emitter.emit(
+                        Message("recognizer_loop:utterance",
+                               {"utterances": [text]},
+                               {"source": "wav_client"}))
+                    remove(self.path)
+                except Exception as e:
+                    # TODO less verbose for reads during writes (ie, live recording)
+                    LOG.warning(e)
+                    time.sleep(0.5)
             time.sleep(0.3)
 
     def handle_external_request(self, message):
