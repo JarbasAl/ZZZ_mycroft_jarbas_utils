@@ -141,6 +141,7 @@ def main():
 
     wav_client = WavClient(ws)
     wav_client.run()
+    wav_client.stop()
     sys.exit()
 
 
