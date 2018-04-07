@@ -111,19 +111,26 @@ class IntentLayers(object):
     def replace_named_layer(self, name, intent_list=None):
         if name in self.named_layers:
             i = self.named_layers[name]
-            LOG.info("deactivating layer named: " + name)
+            LOG.info("replacing layer named: " + name)
             self.replace_layer(i, intent_list)
         else:
             LOG.error("no layer named: " + name)
 
     def replace_layer(self, layer_num, intent_list=None):
         intent_list = intent_list or []
+        if self.current_layer == layer_num:
+            self.deactivate_layer(layer_num)
+        LOG.info("Adding layer" + str(intent_list) + " in position " + str(
+            layer_num))
         self.layers[layer_num] = intent_list
-        LOG.info("Adding layer" + str(intent_list) + " in position " + str(layer_num))
+        if self.current_layer == layer_num:
+            self.activate_layer(layer_num)
 
     def remove_layer(self, layer_num):
         if layer_num >= len(self.layers):
             return False
+        if self.current_layer == layer_num:
+            self.deactivate_layer(layer_num)
         self.layers.pop(layer_num)
         LOG.info("Removing layer number " + str(layer_num))
         return True
