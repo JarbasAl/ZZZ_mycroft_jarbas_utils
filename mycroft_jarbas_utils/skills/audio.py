@@ -3,6 +3,7 @@ from mycroft.util.log import LOG
 from mycroft.util import play_wav, play_mp3
 from mycroft.skills.skill_data import to_letters
 from mycroft.skills.audioservice import AudioService
+from mycroft.audio import wait_while_speaking
 from adapt.intent import IntentBuilder, Intent
 from os.path import join, exists
 import json
@@ -170,7 +171,17 @@ class AudioSkill(MycroftSkill):
         return message
 
     def play(self, tracks):
+        # stop any audio
         self.stop()
+        # wait for any speech
+        wait_while_speaking()
+        # Display icon on faceplate
+        self.enclosure.deactivate_mouth_events()
+        # music code
+        png = "IIAEAOOHGAGEGOOHAA"
+
+        self.enclosure.mouth_display(png, x=10, y=0,
+                                     refresh=True)
         if self.settings["use_audio_service"]:
             self.audio.play(tracks)
         else:
@@ -211,6 +222,8 @@ class AudioSkill(MycroftSkill):
                                                      padatious_handler)
 
     def stop(self):
+        self.enclosure.activate_mouth_events()
+        self.enclosure.mouth_reset()
         if self.settings["use_audio_service"]:
             if self.audio.is_playing:
                 self.audio.stop()
