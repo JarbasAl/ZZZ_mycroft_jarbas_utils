@@ -47,11 +47,11 @@ class IntentLayers(object):
 
     def disable_intent(self, intent_name):
         """Disable a registered intent"""
-        self.emitter.emit(Message("disable_intent", {"intent_name": intent_name}))
+        self.emitter.emit(Message("mycroft.skill.disable_intent", {"intent_name": intent_name}))
 
     def enable_intent(self, intent_name):
         """Reenable a registered self intent"""
-        self.emitter.emit(Message("enable_intent", {"intent_name": intent_name}))
+        self.emitter.emit(Message("mycroft.skill.enable_intent", {"intent_name": intent_name}))
 
     def reset(self):
         LOG.info("Reseting Intent Layers")
