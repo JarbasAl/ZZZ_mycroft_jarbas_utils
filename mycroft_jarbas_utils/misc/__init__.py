@@ -65,5 +65,3 @@ def is_running(process):
         if re.search(process, x):
             return True
     return False
-
-print get_desktop_environment()
