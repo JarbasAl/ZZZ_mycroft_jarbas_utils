@@ -6,7 +6,7 @@ setup(
     packages=['mycroft_jarbas_utils', 'mycroft_jarbas_utils.ssl',
               'mycroft_jarbas_utils.intent', 'mycroft_jarbas_utils.skills',
               'mycroft_jarbas_utils.browser', 'mycroft_jarbas_utils.phonemes',
-              'mycroft_jarbas_utils.messagebus', 'mycroft_jarbas_utils.server',
+              'mycroft_jarbas_utils.messagebus', 'mycroft_jarbas_utils.hivemind',
               'mycroft_jarbas_utils.clients', 'mycroft_jarbas_utils.mark1',
               'mycroft_jarbas_utils.misc'],
     install_requires=[
