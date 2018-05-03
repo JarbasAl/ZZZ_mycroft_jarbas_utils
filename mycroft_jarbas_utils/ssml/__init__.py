@@ -4,7 +4,7 @@ import re
 class SSMLBuilder(object):
     def __init__(self):
         self.text = "<ssml><speak>"
-        self.ssml_tags = ["speak", "ssml", "phoneme", "voice", "audio", "prosody"]
+        self.ssml_tags = ["speak", "ssml", "phoneme", "voice", "audio", "prosody", "break", "whisper"]
 
     def audio(self, audio_file, text=""):
         if len(self.text) and not self.text.endswith(" "):
