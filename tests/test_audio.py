@@ -5,6 +5,10 @@ from os.path import exists
 from os import makedirs, remove
 from adapt.intent import IntentBuilder
 
+from test.util import base_config
+
+BASE_CONF = base_config()
+
 
 class MockEmitter(object):
     def __init__(self):
@@ -30,6 +34,7 @@ class MockEmitter(object):
 
 class AudioSkillTest(unittest.TestCase):
     emitter = MockEmitter()
+    backends = BASE_CONF.get("Audio", {}).get("backends", [])
 
     def setUp(self):
         self.emitter.reset()
@@ -41,6 +46,9 @@ class AudioSkillTest(unittest.TestCase):
         skill.load_data_files("test_skill")
         skill.initialize()
         assert skill.audio is not None
+        self.assertEqual(skill.audio.prefered, "vlc")
+        assert "local" in skill.backends
+        assert "vlc" in skill.backends
 
     # test adding backends as optional keywords
     def check_register_intent(self, result_list):
@@ -138,6 +146,7 @@ class _TestSkill(AudioSkill):
     def __init__(self):
         super().__init__()
         self.skill_id = 'A'
+        self.backend_preference = ["vlc", "mplayer", "local"]
 
 
 class SimpleSkill1(_TestSkill):
@@ -146,7 +155,6 @@ class SimpleSkill1(_TestSkill):
         self.handler_run = False
 
     """ Test skill for normal intent builder syntax """
-
     def initialize(self):
         i = IntentBuilder('a').require('Keyword').build()
         self.register_intent(i, self.handler)
@@ -169,3 +177,4 @@ class SimpleSkill2(_TestSkill):
 
     def handler(self, message):
         self.handler_called = True
+

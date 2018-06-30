@@ -45,7 +45,7 @@ class AudioSkill(MycroftSkill):
     def __init__(self, name=None, emitter=None):
         self.emitter = None
         self.backend_preference = ["chromecast", "mopidy", "mpv", "vlc",
-                                   "mplayer"]
+                                   "mplayer", "local"]
         super(AudioSkill, self).__init__(name, emitter)
         self.audio = None
         self.process = None
@@ -59,7 +59,6 @@ class AudioSkill(MycroftSkill):
             self.settings["force_http"] = False
         if "use_audio_service" not in self.settings:
             self.settings["use_audio_service"] = True
-        self.backend_preference = [""]
         if self.settings["default_backend"]:
             default = self.settings["default_backend"]
             if default in self.backend_preference:
