@@ -34,7 +34,7 @@ class MockEmitter(object):
 
 class AudioSkillTest(unittest.TestCase):
     emitter = MockEmitter()
-    backends = BASE_CONF.get("Audio", {}).get("backends", [])
+    backends = list(BASE_CONF.get("Audio", {}).get("backends", {}).keys())
 
     def setUp(self):
         self.emitter.reset()
@@ -47,8 +47,7 @@ class AudioSkillTest(unittest.TestCase):
         skill.initialize()
         assert skill.audio is not None
         self.assertEqual(skill.audio.prefered, "vlc")
-        assert "local" in skill.backends
-        assert "vlc" in skill.backends
+        self.assertEqual(skill.backends, self.backends)
 
     # test adding backends as optional keywords
     def check_register_intent(self, result_list):
