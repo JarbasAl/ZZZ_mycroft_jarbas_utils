@@ -52,9 +52,12 @@ class FileConsumer(Thread):
         self.stt = None
         self.emitter = emitter
 
-    def run(self):
+    def init_stt(self):
         LOG.info("Creating SST interface")
         self.stt = STTFactory.create()
+
+    def run(self):
+        self.init_stt()
         self.emitter.on("stt.request", self.handle_external_request)
         while not self.stop_event.is_set():
             if exists(self.path):
@@ -86,11 +89,19 @@ class FileConsumer(Thread):
             error = "Invalid file path provided for transcription"
             self.emitter.emit(
                 message.reply("stt.error", {"error": error}))
+        elif not file[-4:] == ".wav":
+            error = "Invalid file format provided for transcription"
+            self.emitter.emit(
+                message.reply("stt.error", {"error": error}))
         else:
-            audio = read_wave_file(file)
-            transcript = self.stt.execute(audio).lower().strip()
-            self.emitter.emit(message.reply("stt.reply",
-                                      {"transcription": transcript}))
+            try:
+                audio = read_wave_file(file)
+                transcript = self.stt.execute(audio).lower().strip()
+                self.emitter.emit(message.reply("stt.reply",
+                                                {"transcription": transcript}))
+            except Exception as error:
+                self.emitter.emit(
+                    message.reply("stt.error", {"error": error}))
 
     def stop(self):
         self.emitter.remove("stt.request", self.handle_external_request)
