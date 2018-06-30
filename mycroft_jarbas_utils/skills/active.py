@@ -6,7 +6,12 @@ class ActiveSkill(MycroftSkill):
 
     def __init__(self, name=None, emitter=None):
         MycroftSkill.__init__(self, name, emitter)
-        self.make_active()
+
+    def bind(self, emitter):
+        if emitter:
+            self.emitter = emitter
+            self.make_active()
+        MycroftSkill.bind(self, emitter)
 
     def on_deactivate(self):
         self.make_active()

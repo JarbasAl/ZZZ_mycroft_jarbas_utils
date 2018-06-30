@@ -35,7 +35,7 @@ class AutoTranslateSkillTest(unittest.TestCase):
         skill = _TestSkill()
         skill.bind(self.emitter)
         skill.initialize()
-        # TODO ind other package, sometimes it say nl instead of en
+        # TODO find other package, sometimes it say nl instead of en
         # self.assertEqual(skill.language_detect("hello world"), "en")
         self.assertEqual(skill.language_detect("my name is mycroft"), "en")
         self.assertEqual(skill.language_detect("olá mundo"), "pt")
