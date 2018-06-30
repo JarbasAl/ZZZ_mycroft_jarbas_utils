@@ -1,3 +1,4 @@
+from builtins import str
 from mycroft.skills.core import MycroftSkill, FallbackSkill, Message, \
     dig_for_message, get_handler_name, LOG
 from mtranslate import translate
@@ -16,7 +17,7 @@ class AutotranslatableSkill(MycroftSkill):
 
     def language_detect(self, utterance):
         try:
-            utterance = unicodedata.normalize('NFKD', unicode(
+            utterance = unicodedata.normalize('NFKD', str(
                 utterance)).encode(
                 'ascii',
                 'ignore')
@@ -26,8 +27,8 @@ class AutotranslatableSkill(MycroftSkill):
 
     def translate(self, text, lang=None):
         lang = lang or self.lang
-        sentence = translate(unicode(text), lang)
-        translated = unicodedata.normalize('NFKD', unicode(sentence)).encode(
+        sentence = translate(str(text), lang)
+        translated = unicodedata.normalize('NFKD', str(sentence)).encode(
             'ascii',
             'ignore')
         LOG.info("translated " + text + " to " + translated)

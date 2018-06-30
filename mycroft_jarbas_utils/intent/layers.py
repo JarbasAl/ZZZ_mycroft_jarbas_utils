@@ -1,3 +1,6 @@
+from builtins import str
+from builtins import range
+from builtins import object
 from mycroft.messagebus.message import Message
 from mycroft.util.log import LOG
 from time import sleep
@@ -57,7 +60,7 @@ class IntentLayers(object):
         LOG.info("Reseting Intent Layers")
         self.activate_layer(0)
 
-    def next(self):
+    def __next__(self):
         LOG.info("Going to next Intent Layer")
         self.current_layer += 1
         if self.current_layer > len(self.layers):

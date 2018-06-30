@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Mycroft Core.  If not, see <http://www.gnu.org/licenses/>.
 
+from builtins import object
 import sys
 
 from threading import Thread, Event
@@ -115,7 +116,7 @@ class WavClient(object):
             self.file_consumer.start()
             while True:
                 time.sleep(10)
-        except KeyboardInterrupt, e:
+        except KeyboardInterrupt as e:
             LOG.exception(e)
             self.stop()
 

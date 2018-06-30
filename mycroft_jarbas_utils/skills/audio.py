@@ -1,3 +1,4 @@
+from past.builtins import basestring
 from mycroft.skills.core import MycroftSkill, FallbackSkill, get_handler_name
 from mycroft.util.log import LOG
 from mycroft.util import play_wav, play_mp3
@@ -117,7 +118,8 @@ class AudioSkill(MycroftSkill):
     def init_audio(self):
         self.audio = AudioServiceB(self.emitter)
         backends = self.config_core.get("Audio", {}).get("backends", {})
-        self.backends = [bk for bk in backends.keys() if backends[bk].get(
+        self.backends = [bk for bk in list(backends.keys()) if
+                         backends[bk].get(
             "active", False)]
         if self.vocab_dir is None:
             self.vocab_dir = join(self._dir, "vocab", self.lang)

@@ -14,6 +14,7 @@ def get_phonemes(name, lang="en-us"):
 
 
 def guess_phonemes_en(word):
+    word = word.lower()
     basicPronunciations = {'a': ['AE'], 'b': ['B'], 'c': ['K'],
                            'd': ['D'],
                            'e': ['EH'], 'f': ['F'], 'g': ['G'],
@@ -47,17 +48,17 @@ def guess_phonemes_en(word):
 
     progress = len(word) - 1
     while progress >= 0:
-        if word[0:3] in basicPronunciations.keys():
+        if word[0:3] in list(basicPronunciations.keys()):
             for phone in basicPronunciations[word[0:3]]:
                 phones.append(phone)
             word = word[3:]
             progress -= 3
-        elif word[0:2] in basicPronunciations.keys():
+        elif word[0:2] in list(basicPronunciations.keys()):
             for phone in basicPronunciations[word[0:2]]:
                 phones.append(phone)
             word = word[2:]
             progress -= 2
-        elif word[0] in basicPronunciations.keys():
+        elif word[0] in list(basicPronunciations.keys()):
             for phone in basicPronunciations[word[0]]:
                 phones.append(phone)
             word = word[1:]
@@ -68,23 +69,24 @@ def guess_phonemes_en(word):
 
 
 def get_phonemes_en(name):
+    name = name.lower()
     phonemes = None
     if " " in name:
         total_phonemes = []
         names = name.split(" ")
         for name in names:
-            phon = get_phonemes(name)
+            phon = get_phonemes_en(name)
             if phon is None:
                 return None
             total_phonemes.extend(phon)
-            total_phonemes.append(".")
-        if total_phonemes[-1] == ".":
+            total_phonemes.append(" . ")
+        if total_phonemes[-1] == " . ":
             total_phonemes = total_phonemes[:-1]
-        phonemes = " ".join(total_phonemes)
+        phonemes = "".join(total_phonemes)
     elif len(pronouncing.phones_for_word(name)):
-        phonemes = " ".join(pronouncing.phones_for_word(name)[0])
+        phonemes = "".join(pronouncing.phones_for_word(name)[0])
     else:
-        guess = guess_phonemes(name)
+        guess = guess_phonemes_en(name)
         if guess is not None:
             phonemes = " ".join(guess)
 

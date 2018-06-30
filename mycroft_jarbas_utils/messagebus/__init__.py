@@ -1,3 +1,4 @@
+from builtins import object
 from mycroft.messagebus.message import Message
 from mycroft.util.log import LOG
 from mycroft.configuration import Configuration

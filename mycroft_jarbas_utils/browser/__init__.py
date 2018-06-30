@@ -1,3 +1,4 @@
+from builtins import object
 from mycroft.messagebus.message import Message
 import time
 
