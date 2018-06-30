@@ -2,7 +2,7 @@ from past.builtins import basestring
 from mycroft.skills.core import MycroftSkill, FallbackSkill, get_handler_name
 from mycroft.util.log import LOG
 from mycroft.util import play_wav, play_mp3
-from mycroft.skills.skill_data import to_letters
+from mycroft.skills.skill_data import to_alnum
 from mycroft.skills.audioservice import AudioService
 from mycroft.audio import wait_while_speaking
 from adapt.intent import IntentBuilder, Intent
@@ -195,7 +195,7 @@ class AudioSkill(MycroftSkill):
                 self.process = play_mp3(tracks[0])
 
     def register_intent(self, intent_parser, handler, need_self=False):
-        skill_id = to_letters(self.skill_id)
+        skill_id = to_alnum(self.skill_id)
         if isinstance(intent_parser, Intent):
             intent_parser.optional += [(skill_id + "AudioBackend", None)]
 
