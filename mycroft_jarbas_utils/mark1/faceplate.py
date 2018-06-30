@@ -117,7 +117,7 @@ def mouth_display_png(image_absolute_path, threshold=70,
     return encode
 
 
-def mouth_display_txt(txt_path, invert=True):
+def mouth_display_txt(txt_path, invert=True, is_file=True):
     """Converts a txt file into the appropriate encoding for the
         Arduino Mark I enclosure.
 
@@ -137,8 +137,12 @@ def mouth_display_txt(txt_path, invert=True):
     height = 8
     encode = ""
     # read and crop
-    with open(txt_path, "r") as f:
-        lines = f.readlines()
+    if is_file:
+        with open(txt_path, "r") as f:
+            lines = f.readlines()
+    else:
+        lines = txt_path.split("\n")
+
     if len(lines) > height:
         lines = lines[:height]
     for i, line in enumerate(lines):
