@@ -3,8 +3,8 @@ from mycroft.configuration import Configuration
 
 class IntentEngine(object):
     def __init__(self, name):
-        self.name = name
-        self.config = Configuration.get().get(name, {})
+        self.name = name.lower()
+        self.config = Configuration.get().get(self.name, {})
         self.intent_samples = {}
         self.entity_samples = {}
 

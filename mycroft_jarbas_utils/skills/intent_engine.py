@@ -4,16 +4,16 @@ from time import time as get_time, sleep
 from mycroft_jarbas_utils.intent.engine import IntentEngine
 from mycroft.skills.core import FallbackSkill
 from mycroft.util.log import LOG
+from mycroft.configuration.config import LocalConf, USER_CONFIG, Configuration
+from mycroft.messagebus.message import Message
 
 
-class IntentEngineService(FallbackSkill):
-    def __init__(self, emitter, service):
+class IntentEngineSkill(FallbackSkill):
+    def __init__(self):
         FallbackSkill.__init__(self)
-        self.service = service
         self.engine = None
         self.config = {}
         self.priority = 4
-        self.emitter = emitter
 
     def initialize(self):
         priority = 4
@@ -21,6 +21,11 @@ class IntentEngineService(FallbackSkill):
         self.bind_engine(engine, priority)
 
     def bind_engine(self, engine, priority=4):
+        conf = LocalConf(USER_CONFIG)
+        priority_skills = Configuration.get().get("skills", {}).get(
+            "priority_skills", [])
+        priority_skills.append(self._dir.split("/")[-1])
+        conf.store()
         self.priority = priority
         self.engine = engine
         self.config = engine.config
@@ -33,8 +38,8 @@ class IntentEngineService(FallbackSkill):
 
     def register_messages(self, name):
         self.emitter.on('mycroft.skills.initialized', self.train)
-        self.emitter.on(name + ':register_intent', self.register_intent)
-        self.emitter.on(name + ':register_entity', self.register_entity)
+        self.emitter.on(name + ':register_intent', self._register_intent)
+        self.emitter.on(name + ':register_entity', self._register_entity)
 
     def train(self, message=None):
         single_thread = message.data.get('single_thread', False)
@@ -69,10 +74,18 @@ class IntentEngineService(FallbackSkill):
         self.train_time = get_time() + self.train_delay
         self.wait_and_train()
 
-    def register_intent(self, message):
+    def register_intent(self, name, samples):
+        data = {"name": name, "samples": samples}
+        self._register_intent(Message(name, data))
+
+    def register_entity(self, name, samples):
+        data = {"name": name, "samples": samples}
+        self._register_entity(Message(name, data))
+
+    def _register_intent(self, message):
         self._register_object(message, 'intent', self.engine.add_intent)
 
-    def register_entity(self, message):
+    def _register_entity(self, message):
         self._register_object(message, 'entity', self.engine.add_entity)
 
     def handle_fallback(self, message):
