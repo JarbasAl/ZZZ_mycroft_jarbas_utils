@@ -41,7 +41,7 @@ class IntentTestBuilder(object):
 
     def check_response(self, expected_response):
         """ Assert that the skill speaks a response that matches this regular expression """
-        pass
+        self.expected_response = expected_response
 
     def check_dialog_file(self, dialog):
         """ Assert that the skill responds with a response from a certain dialog file """
