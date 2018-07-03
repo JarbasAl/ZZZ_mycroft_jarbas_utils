@@ -26,3 +26,20 @@ build tests for your skills
 
             # build the test
             json_dict = t.build_test()
+            
+# sample output
+
+            {
+            'intent_type': 'MyIntent',
+            'intent':
+                {
+                    'person': 'i',
+                    'verb': 'said'
+                },
+            'remove_context': ['OldContext'],
+            'changed_context': [],
+            'set_context': {'Testing': 'this is a test'},
+            'expected_dialog': 'test',
+            'evaluation_timeout': 30,
+            'utterance': 'i said this'
+            }
