@@ -6,7 +6,7 @@ IntentEngine skill is a Mycroft skill baseclass that registers and triggers inte
 
 - edits user configuration to make self a priority skill
 - listens for messages to register intents/entities
-- [base class]() to implement your own engine
+- [base class](https://github.com/JarbasAl/mycroft_jarbas_utils/blob/py3/mycroft_jarbas_utils/intent/engine.md) to implement your own engine
 - on fallback trigger uses engine to determine intent
 - registers self as a fallback skill, priority configurable
 
