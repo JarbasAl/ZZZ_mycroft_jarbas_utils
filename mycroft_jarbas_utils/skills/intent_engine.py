@@ -1,7 +1,7 @@
 from threading import Event
 from time import time as get_time, sleep
 
-from mycroft_jarbas_utils.intent.engine import IntentEngine
+from mycroft_jarbas_utils.intent.engines import IntentEngine
 from mycroft.skills.core import FallbackSkill
 from mycroft.util.log import LOG
 from mycroft.configuration.config import LocalConf, USER_CONFIG, Configuration
